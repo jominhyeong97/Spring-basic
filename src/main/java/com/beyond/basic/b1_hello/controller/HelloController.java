@@ -7,6 +7,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 
 //Component 어노테이션(Controller 안에 내장된 기능?) 을 통해 별도의 객체를 생성할 필요가 없는 싱글톤 객체 생성
 //Controller 어노테이션을 통해 쉽게 사용자의 http req를 분석하고, http res를 생성
@@ -143,16 +145,64 @@ public String formFileView () {
     }
 
 
-
-
 //    case3. text와 멀티 file이 있는 form-data형식 (js로 제출)
 
+    @GetMapping("/axios-multi-file-view")
+    public String axiosMultiFileView () {
+        return "axios-multi-file-view";
+    }
+    @PostMapping("/axios-multi-file-view")
+    @ResponseBody
+    public String axiosMultiFileView (@ModelAttribute Hello hello, @RequestParam(value = "photos") List<MultipartFile> photos) {
+        for(int i=0; i<photos.size(); i++) {
+            System.out.println(photos.get(i).getOriginalFilename());
+        }
+        return "ok";
+    }
+
+
 //    case4. json 데이터 처리
+    @GetMapping("/axios-json-view")
+    public String axiosJsonView () {
+        return "axios_json_view";
+    }
 
-//    case5. 중첩된 json 데이터 처리
+//    RequestBody : json형식으로 데이터가 들어올때 객체로 자동파싱(매우중요!!!!!!!!!!!!!!!!!!!!!!!!!!)
+    @PostMapping("/axios-json-view")
+    @ResponseBody
+    public String axiosJsonViewPost(@RequestBody Hello hello) { //RequestBody로 바디의 데이터를 가져올 수 있음
+        System.out.println(hello);
+        return "okay";
+    }
 
-//    case6. json(text)과 file을 같이 처리
+//    case5. 중첩된 json 데이터 처리(정말 너무 흔하고 너무 자주 나옴 중요!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!)
+@GetMapping("/axios-nested-json-view")
+public String axiosNestedJsonView () {
+    return "axios-nested-json-view";
+}
 
+    @PostMapping("/axios-nested-json-view")
+    @ResponseBody
+    public String axiosNestedJsonViewPost(@RequestBody Student student) {
+        System.out.println(student);
+        return "okay";
+    }
+
+
+//    case6. json(text)과 file을 같이 처리 : text구조가 복잡하여 피치못하게 json구조를 써야하는 경우
+//    데이터형식 : hello={name:"xx",email:"xxx"}&photo=imagae.jpg
+//    결론은 단순 json구조가 아닌 multipart-formdata 구조안에 json을 넣는 구조
+@GetMapping("/axios-json-file-view")
+public String axiosJsonFileView () {
+    return "/axios-json-file-view";
+}
+
+    @PostMapping("/axios-json-file-view")
+    @ResponseBody
+    public String axiosJsonFileViewPost() {
+        System.out.println();
+        return "okay";
+    }
 
 
 
