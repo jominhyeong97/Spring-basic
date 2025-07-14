@@ -12,7 +12,20 @@ import java.util.List;
 
 //Component 어노테이션(Controller 안에 내장된 기능?) 을 통해 별도의 객체를 생성할 필요가 없는 싱글톤 객체 생성
 //Controller 어노테이션을 통해 쉽게 사용자의 http req를 분석하고, http res를 생성
-//즉, 싱글톤으로 객체생성없이 사용가능, 사용자의 req를 분석하고 , http res를 생성
+
+// 사용자의 요청에 대한 패턴을 외우는게 중요(1. path방식 2. param방식 )
+// 파라미터 형식의 데이터 바인딩(1. get 2. post)
+// 1. get : header부 ?id=1 (조회)
+// 2. post : body부 url인코딩,form(?asdf = 12 & ... 이므로 json은 놉)
+// 둘 다 처리는 똑가트니 requestparam(한개) -> modelattribute(여러개 : 데이터 바인딩)
+
+// 또한 1. json(requestbody) 혹은 2. formdata(modelatribute) 처리방식을 외워야 한다.
+
+//--------------------------------------------------
+
+// path방식(@pathvariable) , json 방식(@requestbody)은 다른 case
+
+
 @Controller
 
 //클래스 차원의 url매핑시에는 RequestMapping을 사용
@@ -78,11 +91,12 @@ public class HelloController {
 //    데이터바인딩 : param을 이용하여 객체로 생성
 //    ?name=hong&email=hong@naver.com
 
+//    어차피 데이터 받아서 객체 만들것아니냐? model atri~로 명시해라 그냥 객체로 받고.
     @GetMapping("/param3")
     @ResponseBody
 //    public String param3 (Hello hello)
     public String param3 (@ModelAttribute Hello hello){ //ModelAttribute를 써도 되고 안써도 되지만 param인 것을 명시
-
+//
         System.out.println(hello);
         System.out.println(hello.getName());
         return "ok";
@@ -109,7 +123,7 @@ public class HelloController {
     }
 
 
-//    post요청의 case들 : (multipart 혹은 url인코딩) 또는 json
+//    post요청의 case들 : formdata(multipart 혹은 url인코딩) 또는 json
 
 //    case1. text만 있는 formdata형식
 //    형식 : body부에 name-xxx&email=xxx
@@ -199,8 +213,12 @@ public String axiosJsonFileView () {
 
     @PostMapping("/axios-json-file-view")
     @ResponseBody
-    public String axiosJsonFileViewPost() {
+//    json과 file을 함께 처리해야할 때 requestPart 일반적으로 활용
+    public String axiosJsonFileViewPost(@RequestPart("hello") Hello hello,
+                                        @RequestPart("photo") MultipartFile photo) {
         System.out.println();
+        System.out.println(hello);
+        System.out.println(photo.getOriginalFilename());
         return "okay";
     }
 
