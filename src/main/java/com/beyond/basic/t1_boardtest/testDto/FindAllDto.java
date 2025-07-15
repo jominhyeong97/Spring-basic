@@ -1,19 +1,16 @@
-package com.beyond.basic.b2_board.dto;
+package com.beyond.basic.t1_boardtest.testDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
 
-public class AuthorListDto {
-    private Long id;
+public class FindAllDto {
     private String name;
-    private String password;
-
-
-
+    private String email;
+    private Long id;
 }
-

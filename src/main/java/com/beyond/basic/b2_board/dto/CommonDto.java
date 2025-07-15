@@ -7,13 +7,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+public class CommonDto {
+    private Object result;
 
-public class AuthorListDto {
-    private Long id;
-    private String name;
-    private String password;
-
-
+    private String status_message;
+    private int status_code;
 
 }
-
