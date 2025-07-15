@@ -80,6 +80,7 @@ public class HelloController {
 //    /param2?name=hong&email=hong@naver.com
     @GetMapping("/param2")
     @ResponseBody
+
     public String param2(@RequestParam(value = "name") String inputName, @RequestParam(value = "email") String inputEmail) {
         System.out.println(inputName);
         System.out.println(inputEmail);
