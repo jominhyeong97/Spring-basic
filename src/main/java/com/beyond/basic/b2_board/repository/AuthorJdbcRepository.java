@@ -120,6 +120,15 @@ public class AuthorJdbcRepository {
 
     public void delete (Long id) {
 //        id값으로 인덱스값을 찾아 삭제
+        try {
+            Connection connection = dataSource.getConnection();
+            String sql = "delete from author where id=?";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setLong(1,id);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void updatePassword() {
