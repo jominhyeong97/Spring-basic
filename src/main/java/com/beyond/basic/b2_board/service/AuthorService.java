@@ -6,6 +6,7 @@ import com.beyond.basic.b2_board.dto.AuthorDetailDto;
 import com.beyond.basic.b2_board.dto.AuthorListDto;
 import com.beyond.basic.b2_board.repository.AuthorJdbcRepository;
 import com.beyond.basic.b2_board.repository.AuthorMemoryRepository;
+import com.beyond.basic.b2_board.repository.AuthorMybatisRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,7 +42,7 @@ public class AuthorService {
 //    의존성 주입(DI) 방법3. RequiredArgs 어노테이션 사용 -> 반드시 초기화되어야 하는 필드(final 등)을 대상으로 생성자를 자동생성
 //    다형성 설계는 불가
 
-private final AuthorJdbcRepository authorRepository;
+private final AuthorMybatisRepository authorRepository;
 
     public void save(AuthorCreateDto authorCreateDto) {
 //        이메일 중복검증, 비밀번호 길이 검증
