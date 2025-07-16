@@ -36,7 +36,7 @@ public class Author {
     }
 
     public AuthorListDto listFromEntity() {
-        return new AuthorListDto(this.id,this.name,this.password);
+        return new AuthorListDto(this.id,this.name,this.email);
     }
 
 }

@@ -67,7 +67,7 @@ private final AuthorJdbcRepository authorRepository;
 //            authorListDto.add(authorDto);
 //        }
 
-//        위 코드를 간결하게 줄임.
+//        트랜잭션이 필요없는 경우 위 코드를 간결하게 줄임.
 
         return this.authorRepository.findAll().stream().
         map(a->a.listFromEntity()).collect(Collectors.toList());

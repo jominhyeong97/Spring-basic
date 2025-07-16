@@ -36,13 +36,13 @@ public class Service {
     public FindDetailDto findById(Long id) {
         return null;
     }
-    public void updatePw(Long id, String newPw) {
-        Author author = new Author();
-        for(author a : )
-    }
-    public Optional<?> deleteUser() {
-        return null;
-    }
+//    public void updatePw(Long id, String newPw) {
+//        Author author = new Author();
+//        for(author a : )
+//    }
+//    public Optional<?> deleteUser() {
+//        return null;
+//    }
 
 
 

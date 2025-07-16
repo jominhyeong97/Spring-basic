@@ -44,11 +44,11 @@ public class Controller {
         service.findById(id);
         return null;
     }
-    @DeleteMapping("/delete/{id}")
-    public String updatePw(@PathVariable Long id, String newPw) {
-        service.updatePw(id,newPw);
-        return "ok";
-    }
+//    @DeleteMapping("/delete/{id}")
+//    public String updatePw(@PathVariable Long id, String newPw) {
+//        service.updatePw(id,newPw);
+//        return "ok";
+//    }
 
     public ResponseEntity<?> deleteUser() {
         return null;

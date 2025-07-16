@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 
@@ -47,7 +48,25 @@ public class AuthorJdbcRepository {
 
     //    전체목록조회
     public List<Author> findAll() {
-        return null;
+        List<Author> author = new ArrayList<>();
+        try {
+            Connection connection = dataSource.getConnection();
+            String sql = "select * from author";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Long id = rs.getLong("id");
+                String name = rs.getString("name");
+                String email = rs.getString("email");
+                String password = rs.getString("password");
+                author.add(new Author(id, name, email, password));
+
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return author;
     }
 
     //    상세조회
@@ -59,12 +78,14 @@ public class AuthorJdbcRepository {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setLong(1,inputId);
             ResultSet rs = ps.executeQuery();
-            rs.next();
-            Long id = rs.getLong("id");
-            String name = rs.getString("name");
-            String email = rs.getString("email");
-            String password = rs.getString("password");
-            author = new Author(id,name,email,password);
+            if(rs.next()) {
+                rs.next();
+                Long id = rs.getLong("id");
+                String name = rs.getString("name");
+                String email = rs.getString("email");
+                String password = rs.getString("password");
+                author = new Author(id,name,email,password);
+            }
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
