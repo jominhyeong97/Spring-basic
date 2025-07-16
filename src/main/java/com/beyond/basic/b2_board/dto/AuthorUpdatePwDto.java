@@ -1,12 +1,12 @@
 package com.beyond.basic.b2_board.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
+@Getter
+@Setter
+@ToString
 
 
 public class AuthorUpdatePwDto {

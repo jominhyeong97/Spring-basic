@@ -1,48 +1,64 @@
 package com.beyond.basic.t1_boardtest.testService;
 
-import com.beyond.basic.t1_boardtest.testDomain.Author;
+import com.beyond.basic.b2_board.domain.Author;
+import com.beyond.basic.t1_boardtest.testDomain.User;
 import com.beyond.basic.t1_boardtest.testDto.FindAllDto;
 import com.beyond.basic.t1_boardtest.testDto.FindDetailDto;
+import com.beyond.basic.t1_boardtest.testDto.SaveDto;
 import com.beyond.basic.t1_boardtest.testRepo.Repository;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 @org.springframework.stereotype.Service
 @Transactional
 
 public class Service {
 
-    @Autowired
+
     final public Repository repository;
 
+    @Autowired
     public Service(Repository repository) {
         this.repository = repository;
     }
 
-    public ResponseEntity<?> save(@ModelAttribute Author author) {
-        return null;
+    public void save(SaveDto saveDto) {
+//        이메일검증, 비밀번호 검증 필요함.
+        repository.save(saveDto.saveToEntity());
     }
 
-    public List<FindAllDto> findAll(FindAllDto findAllDto) {
-        return null;
+    public List<FindAllDto> findAll() {
+
+//       List<FindAllDto> findAllDtoList = new ArrayList<>();
+//        for(User a : repository.findAll()) {
+//            findAllDtoList.add(new FindAllDto().fromEntity(a));
+//        }
+//        return findAllDtoList;
+        return repository.findAll().stream().map(a->new FindAllDto().fromEntity(a)).collect(Collectors.toList());
+
     }
+
     public FindDetailDto findById(Long id) {
-        return null;
+        User user = repository.findById(id).orElseThrow(()-> new NoSuchElementException("값이없습니다."));
+        return new FindDetailDto().fromEntity(user);
     }
+
 //    public void updatePw(Long id, String newPw) {
 //        Author author = new Author();
 //        for(author a : )
 //    }
-//    public Optional<?> deleteUser() {
-//        return null;
-//    }
+
+    public void delete(Long id) {
+        User user = repository.findById(id).orElseThrow(()-> new NoSuchElementException("값이없습니다."));
+        repository.delete(user);
+    }
 
 
 

@@ -1,6 +1,6 @@
 package com.beyond.basic.t1_boardtest.testDomain;
 
-import com.beyond.basic.t1_boardtest.testRepo.Repository;
+import jakarta.persistence.*;
 import lombok.*;
 
 @AllArgsConstructor
@@ -8,19 +8,23 @@ import lombok.*;
 @Getter
 @ToString
 @Setter
+@Entity
 
-public class Author {
+public class User {
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
     private Long id;
     private String name;
+    @Column(length = 50, unique = true, nullable = false)
     private String email;
     private String password;
 
-    public  Author(String name, String email, String password) {
+    public User(String name, String email, String password) {
 
         this.name = name;
         this.email = email;
         this.password = password;
-        this.id = Repository.id;
+
     }
 
 }
