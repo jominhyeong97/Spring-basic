@@ -1,17 +1,13 @@
 package com.beyond.basic.t1_boardtest.testService;
 
-import com.beyond.basic.b2_board.domain.Author;
 import com.beyond.basic.t1_boardtest.testDomain.User;
 import com.beyond.basic.t1_boardtest.testDto.FindAllDto;
 import com.beyond.basic.t1_boardtest.testDto.FindDetailDto;
 import com.beyond.basic.t1_boardtest.testDto.SaveDto;
 import com.beyond.basic.t1_boardtest.testRepo.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.ModelAttribute;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;

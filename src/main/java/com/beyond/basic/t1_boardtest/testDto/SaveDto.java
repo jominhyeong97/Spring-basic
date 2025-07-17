@@ -1,6 +1,5 @@
 package com.beyond.basic.t1_boardtest.testDto;
 
-import com.beyond.basic.b2_board.domain.Author;
 import com.beyond.basic.t1_boardtest.testDomain.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,14 +1,13 @@
-package com.beyond.basic.b2_board.domain;
+package com.beyond.basic.b2_board.author.domain;
 
-import com.beyond.basic.b2_board.dto.AuthorCreateDto;
-import com.beyond.basic.b2_board.dto.AuthorDetailDto;
-import com.beyond.basic.b2_board.dto.AuthorListDto;
-import com.beyond.basic.b2_board.repository.AuthorMemoryRepository;
+import com.beyond.basic.b2_board.author.dto.AuthorDetailDto;
+import com.beyond.basic.b2_board.author.dto.AuthorListDto;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,6 +18,8 @@ import lombok.ToString;
 //JPA의 Entity Manager에게 객체를 위임하기 위한 어노테이션
 //Entity Manager는 영속성 컨텍스트(엔티티의 현재 상황)를 통해 db데이터 관리
 @Entity
+//BUilder 어노테이션을 통해 유연하게 객체생성 가능
+@Builder
 
 public class Author {
     @Id //pk로 설정
@@ -29,17 +30,20 @@ public class Author {
     private String name;
     @Column(length = 50, unique = true, nullable = false)
     private String email;
-
 //    @Column(name = "pw") 되도록이면 컬럼명과 필드명을 일칳시키는 것이 개발의 혼선을 줄일 수 있음.
     private String password;
+    @Builder.Default //빌더 패턴에서 변수 초기화(디폴트값)시 Builder.Default어노테이션 필수
+    @Enumerated(EnumType.STRING)
+    private Role role = Role.USER;
+
+//    컬럼명에 케멀케이스 사용시 db에는 created_time으로 컬럼 생성
+    @CreationTimestamp
+    private LocalDateTime createdTime;
+    @UpdateTimestamp
+    private LocalDateTime updatedTime;
 
 
-    public Author(String name, String email, String password) {
-//        this.id = AuthorMemoryRepository.id;
-        this.name = name;
-        this.email = email;
-        this.password = password;
-    }
+
 
     public void updatePw(String password) {
         this.password = password;

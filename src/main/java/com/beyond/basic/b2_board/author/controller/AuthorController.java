@@ -1,17 +1,16 @@
-package com.beyond.basic.b2_board.controller;
+package com.beyond.basic.b2_board.author.controller;
 
-import com.beyond.basic.b2_board.domain.Author;
-import com.beyond.basic.b2_board.dto.*;
-import com.beyond.basic.b2_board.repository.AuthorMemoryRepository;
-import com.beyond.basic.b2_board.service.AuthorService;
+import com.beyond.basic.b2_board.author.dto.AuthorCreateDto;
+import com.beyond.basic.b2_board.author.dto.AuthorListDto;
+import com.beyond.basic.b2_board.author.dto.CommonDto;
+import com.beyond.basic.b2_board.author.service.AuthorService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/author")
@@ -20,7 +19,8 @@ public class AuthorController {
     private final AuthorService authorService;
 //     회원 가입
     @PostMapping("/create")
-    public ResponseEntity<String> save(@ModelAttribute AuthorCreateDto authorCreateDto) {
+//    dto에 있는 validation어노테이션과 controller @vaild 한 쌍
+    public ResponseEntity<String> save(@Valid @ModelAttribute AuthorCreateDto authorCreateDto) {
 //        try {
 //
 //
