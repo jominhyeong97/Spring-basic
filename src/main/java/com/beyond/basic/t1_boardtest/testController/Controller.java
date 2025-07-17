@@ -1,9 +1,9 @@
 package com.beyond.basic.t1_boardtest.testController;
 
-import com.beyond.basic.t1_boardtest.testDomain.Author;
+import com.beyond.basic.t1_boardtest.testDomain.User;
 import com.beyond.basic.t1_boardtest.testDto.FindAllDto;
 import com.beyond.basic.t1_boardtest.testDto.FindDetailDto;
-import com.beyond.basic.t1_boardtest.testRepo.Repository;
+import com.beyond.basic.t1_boardtest.testDto.SaveDto;
 import com.beyond.basic.t1_boardtest.testService.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/test")
@@ -28,21 +27,22 @@ public class Controller {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> save(@ModelAttribute Author author) {
-        service.save(author);
-        return new ResponseEntity<>("ok", HttpStatus.OK);
+    public ResponseEntity<?> save(@ModelAttribute SaveDto saveDto) {
+        service.save(saveDto);
+        System.out.println(saveDto);
+        return new ResponseEntity<>("ok", HttpStatus.CREATED);
     }
 
     @GetMapping("/findAll")
-    public List<FindAllDto> findAll(@ModelAttribute FindAllDto findAllDto) {
-        service.findAll(findAllDto);
-        return null;
+    public ResponseEntity<?> findAll() {
+
+        return new ResponseEntity<>(service.findAll(),HttpStatus.OK);
     }
 
     @GetMapping("/findDetail/{id}")
-    public FindDetailDto findById(@PathVariable Long id) {
-        service.findById(id);
-        return null;
+    public ResponseEntity<?> findById(@PathVariable Long id) {
+
+        return new ResponseEntity<>(service.findById(id),HttpStatus.OK);
     }
 //    @DeleteMapping("/delete/{id}")
 //    public String updatePw(@PathVariable Long id, String newPw) {
@@ -50,8 +50,9 @@ public class Controller {
 //        return "ok";
 //    }
 
-    public ResponseEntity<?> deleteUser() {
-        return null;
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> delete(@PathVariable Long id) {
+        service.delete(id);
+        return new ResponseEntity<>("ok",HttpStatus.OK);
     }
-
 }

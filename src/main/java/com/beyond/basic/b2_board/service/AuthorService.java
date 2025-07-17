@@ -4,8 +4,12 @@ import com.beyond.basic.b2_board.domain.Author;
 import com.beyond.basic.b2_board.dto.AuthorCreateDto;
 import com.beyond.basic.b2_board.dto.AuthorDetailDto;
 import com.beyond.basic.b2_board.dto.AuthorListDto;
-import com.beyond.basic.b2_board.repository.AuthorJdbcRepository;
+
+import com.beyond.basic.b2_board.dto.AuthorUpdatePwDto;
+import com.beyond.basic.b2_board.repository.AuthorJpaRepository;
 import com.beyond.basic.b2_board.repository.AuthorMemoryRepository;
+import com.beyond.basic.b2_board.repository.AuthorMybatisRepository;
+import com.beyond.basic.b2_board.repository.AuthorRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,7 +45,7 @@ public class AuthorService {
 //    의존성 주입(DI) 방법3. RequiredArgs 어노테이션 사용 -> 반드시 초기화되어야 하는 필드(final 등)을 대상으로 생성자를 자동생성
 //    다형성 설계는 불가
 
-private final AuthorJdbcRepository authorRepository;
+private final AuthorRepository authorRepository;
 
     public void save(AuthorCreateDto authorCreateDto) {
 //        이메일 중복검증, 비밀번호 길이 검증
@@ -75,12 +79,16 @@ private final AuthorJdbcRepository authorRepository;
 
 //    public void updatePassword(String email, String newPassword) {
 //
+//        AuthorUpdatePwDto authorUpdatePwDto = new AuthorUpdatePwDto();
 //        for(Author a : this.authorRepository.getAuthorList()) {
 //            if(a.getEmail().equals(email)) {
 //                a.updatePw(newPassword);
 //                return;
 //            }
 //        }
+////        dirty체킹 : 객체를 수정한 후 별도의 update 쿼리 발생시키지 않아도 영ㅎ속성 컨텍스트에 의해 객체변경사항 자동 DB반영
+//        Author author = authorRepository.findByEmail(authorUpdatePwDto.getEmail().o
+//
 //
 //    }
 
@@ -91,7 +99,9 @@ private final AuthorJdbcRepository authorRepository;
     }
 
     public void delete(Long id) {
-        this.authorRepository.delete(id);
+
+        Author author = authorRepository.findById(id).orElseThrow(()->new NoSuchElementException());
+        this.authorRepository.delete(author);
     }
 
 
