@@ -19,11 +19,13 @@ public class PostCreateDto {
     private String contents;
     private Long authorId;
 
+
     public Post toEntity(Author author) {
         return Post.builder()
                 .title(this.title)
                 .contents(this.contents)
 //                .authorId(this.authorId)
+                .delYn("N")
                 .author(author)
                 .build();
     }

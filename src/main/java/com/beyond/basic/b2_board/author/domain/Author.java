@@ -1,13 +1,17 @@
 package com.beyond.basic.b2_board.author.domain;
 
+import com.beyond.basic.b2_board.Common.BaseTimeEntity;
 import com.beyond.basic.b2_board.author.dto.AuthorDetailDto;
 import com.beyond.basic.b2_board.author.dto.AuthorListDto;
+import com.beyond.basic.b2_board.post.domain.Post;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -21,7 +25,7 @@ import java.time.LocalDateTime;
 //BUilder 어노테이션을 통해 유연하게 객체생성 가능
 @Builder
 
-public class Author {
+public class Author extends BaseTimeEntity {
     @Id //pk로 설정
 //    identity : auto_increment, auto : id생성전략을 jpa에게 자동설정하도록 위임
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,22 +40,22 @@ public class Author {
     @Enumerated(EnumType.STRING)
     private Role role = Role.USER;
 
-//    컬럼명에 케멀케이스 사용시 db에는 created_time으로 컬럼 생성
-    @CreationTimestamp
-    private LocalDateTime createdTime;
-    @UpdateTimestamp
-    private LocalDateTime updatedTime;
+    //    OneToMany는 선택사항이다. 또한 default가 lazy.
+    //mappedBy에는 manyToOne쪽의 변수명을 문자열로 저장. 초기화 필수!
+    // fk관리를 반대편쪽(post)에서 한다는 의미 -> 연관관계의 주인설정
 
-
+    @OneToMany(mappedBy = "author", fetch = FetchType.LAZY)
+    @Builder.Default //중요!!!!!!!!
+    List<Post> postList = new ArrayList<>();
 
 
     public void updatePw(String password) {
         this.password = password;
     }
 
-    public AuthorDetailDto detailFromEntity() {
-        return  new AuthorDetailDto(this.id,this.name,this.email);
-    }
+//    public AuthorDetailDto detailFromEntity() {
+//        return  new AuthorDetailDto(this.id,this.name,this.email);
+//    }
 
     public AuthorListDto listFromEntity() {
         return new AuthorListDto(this.id,this.name,this.email);

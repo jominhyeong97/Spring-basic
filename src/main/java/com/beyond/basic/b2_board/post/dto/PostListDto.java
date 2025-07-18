@@ -17,11 +17,13 @@ import java.util.List;
 public class PostListDto {
     private Long id;
     private String title;
+    private String author_email;
 
     public static PostListDto fromEntity(Post post) {
         return PostListDto.builder()
                 .id(post.getId())
                 .title(post.getTitle())
+                .author_email(post.getAuthor().getEmail())
                 .build();
 
     }
