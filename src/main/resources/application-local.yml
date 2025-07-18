@@ -10,7 +10,7 @@ server:
 
 spring:
   config:
-    active:
+    activate:
       on-profile: local
   # 아래는 jdbc의 기본 db 관련 설정인데, jdbc 뿐만 아니라 mybatis / jpa 등 spring의 대부분의 DB 기술에 동일하게 사용
   datasource:
@@ -33,7 +33,10 @@ spring:
 #      콘솔창에 ddl, dml 등의 쿼리를 출력하여 보여주는 옵션
     show_sql: true
 
-
+logging:
+  level:
+#    debug,info,error 로그 출력
+    root: info
 
 
 #    mapper파일(mybatis의 쿼리파일)의 위치를 명시하고 scan, 기본적으로 resource 풀더는 default

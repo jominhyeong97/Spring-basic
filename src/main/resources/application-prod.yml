@@ -4,7 +4,6 @@
 #서버 포트 기본값은 8080입니다
 #server.port=8080
 
-
 server:
   port: 8080
 
@@ -35,7 +34,10 @@ spring:
     show_sql: true
 
 
-
+logging:
+  level:
+    #    info,error 로그 출력
+    root: error
 
 #    mapper파일(mybatis의 쿼리파일)의 위치를 명시하고 scan, 기본적으로 resource 풀더는 default
 mybatis:
